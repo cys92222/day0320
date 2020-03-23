@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script type="text/javascript">
+$(function(){
+	//id가 my_form에서 submit이 눌러지면
+	$("#my_form").submit(function(event){
+		//객체로 만듦
+		var member = $("#my_form").serializeArray();
+		
+		var str = $.param(member);
+		console.log(str);
+		var url = "/ActionWidthData?"+str;
+		$("#wrap").load(url);
+		
+		/* 
+		//ActionWidthData를 호출해서 str의 결과를 r에 넣음
+		$.ajax("/ActionWidthData",{data:member}, success:function(r){
+			$("#wrap").html(r);
+		}); 
+		*/
+		
+		//기본 이벤트 제거
+		event.preventDefault();
+	});
+});
+</script>
+</head>
+<body>
+<form id="my_form" action="login.do" method="post">
+	<table>
+		<tr>
+			<!-- name을 위한 label -->
+			<td><label for="name">Name</label> </td>
+			<!-- id는 스크립트name은 서버 -->
+			<td><input type="text" id="name" name="name"> </td>
+		</tr>
+		
+		<tr>
+			<td><label for="age">Age</label> </td>
+			<td><input type="text" id="age" name="age"> </td>
+		</tr>
+	</table>
+	<input type="submit" value="Get Ajax String">
+</form>
+
+<div id="wrap"></div>
+</body>
+</html>
